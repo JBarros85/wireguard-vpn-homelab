@@ -1,0 +1,17 @@
+# Prevent accidental publication of credentials and real VPN profiles.
+*.key
+*.pem
+*.p12
+*.pfx
+*.env
+.env
+*.qr
+*.png
+*.jpg
+*.jpeg
+wg0.conf
+wg-quick*.conf
+*private*.conf
+*client*.conf
+*.bak
+*.backup
