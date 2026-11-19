@@ -33,3 +33,7 @@ The November 17 investigation confirmed a configured WireGuard interface and fou
 ## Security and privacy
 
 No live WireGuard configuration, private keys, preshared keys, QR codes, client IP allocations or personal hostnames are stored in this public repository. Commands and diagrams are illustrative and must be adapted to the actual deployment.
+
+## Peer Operations
+
+- [WireGuard peer configuration and connectivity checks](docs/peer-connectivity.md)
