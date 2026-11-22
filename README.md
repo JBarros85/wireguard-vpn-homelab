@@ -37,3 +37,4 @@ No live WireGuard configuration, private keys, preshared keys, QR codes, client 
 ## Peer Operations
 
 - [WireGuard peer configuration and connectivity checks](docs/peer-connectivity.md)
+- [Incident: WireGuard stale endpoint after public IP change](docs/incidents/2026-11-17-stale-wireguard-endpoint.md)
