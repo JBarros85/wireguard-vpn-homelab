@@ -38,3 +38,9 @@ No live WireGuard configuration, private keys, preshared keys, QR codes, client 
 
 - [WireGuard peer configuration and connectivity checks](docs/peer-connectivity.md)
 - [Incident: WireGuard stale endpoint after public IP change](docs/incidents/2026-11-17-stale-wireguard-endpoint.md)
+
+## Peer Health Monitoring
+
+Run `sudo python3 scripts/peer-health.py` to inspect handshake age without printing peer identities. A recent handshake does not, by itself, prove full tunnel connectivity.
+
+- [Privacy-safe WireGuard handshake monitor](scripts/peer-health.py)
