@@ -44,3 +44,7 @@ No live WireGuard configuration, private keys, preshared keys, QR codes, client 
 Run `sudo python3 scripts/peer-health.py` to inspect handshake age without printing peer identities. A recent handshake does not, by itself, prove full tunnel connectivity.
 
 - [Privacy-safe WireGuard handshake monitor](scripts/peer-health.py)
+
+## Automated tests
+
+Run `python3 -m unittest discover -s tests -v` to test the peer monitor with simulated handshakes. Tests do not access a live VPN or reveal peer identifiers.
