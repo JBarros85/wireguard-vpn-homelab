@@ -48,3 +48,7 @@ Run `sudo python3 scripts/peer-health.py` to inspect handshake age without print
 ## Automated tests
 
 Run `python3 -m unittest discover -s tests -v` to test the peer monitor with simulated handshakes. Tests do not access a live VPN or reveal peer identifiers.
+
+## Continuous Integration
+
+GitHub Actions runs five synthetic peer-monitor tests on every push and pull request. The workflow does not access the production VPN, peer identities or server credentials.
