@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
 """Read-only, privacy-safe WireGuard handshake audit."""
+import argparse
 import subprocess
 import sys
 import time
 
-interface = sys.argv[1] if len(sys.argv) > 1 else "wg0"
+parser = argparse.ArgumentParser(description="Privacy-safe WireGuard peer check")
+parser.add_argument("interface", nargs="?", default="wg0")
+parser.add_argument("--recent-seconds", type=int, default=180)
+parser.add_argument("--require-recent", action="store_true")
+args = parser.parse_args()
+if not 1 <= args.recent_seconds <= 86400:
+    parser.error("--recent-seconds must be between 1 and 86400")
+interface = args.interface
 result = subprocess.run(["wg", "show", interface, "latest-handshakes"], capture_output=True, text=True)
 if result.returncode:
     sys.exit("ERROR: unable to read WireGuard handshake state")
@@ -27,9 +35,11 @@ for line in result.stdout.splitlines():
     else:
         age = now - timestamp
         status = f"{age // 60} minutes ago"
-        if age <= 180:
+        if age <= args.recent_seconds:
             recent += 1
     print(f"Peer {peers}: {status}")
 print(f"Total peers: {peers}")
-print(f"Handshakes within 180 seconds: {recent}")
+print(f"Handshakes within {args.recent_seconds} seconds: {recent}")
+if args.require_recent and recent == 0:
+    sys.exit(2)
 print("Peer keys and endpoints intentionally omitted")

@@ -51,4 +51,8 @@ Run `python3 -m unittest discover -s tests -v` to test the peer monitor with sim
 
 ## Continuous Integration
 
-GitHub Actions runs five synthetic peer-monitor tests on every push and pull request. The workflow does not access the production VPN, peer identities or server credentials.
+GitHub Actions runs synthetic peer-monitor tests on every push and pull request. The workflow does not access the production VPN, peer identities or server credentials.
+
+## Optional Health Check
+
+Use `--recent-seconds 300` to configure the handshake age window. Add `--require-recent` to return exit code 2 when no peer has a handshake within that period. Without this option, inactive peers do not trigger failures. Use this check only when active peers are expected; a recent handshake does not prove complete VPN connectivity. No production configuration changes are required.
