@@ -42,6 +42,21 @@ class PeerHealthTests(unittest.TestCase):
         with self.assertRaises(SystemExit):
             self.audit("", argv=["--recent-seconds", "0"])
 
+    def test_timeout(self):
+        with patch.object(sys, "argv", ["peer-health.py"]), patch("subprocess.run", side_effect=subprocess.TimeoutExpired("wg", 5)):
+            with self.assertRaises(SystemExit) as caught:
+                runpy.run_path(SCRIPT, run_name="__main__")
+        self.assertIn("timed out", str(caught.exception))
+
+    def test_missing_command(self):
+        with patch.object(sys, "argv", ["peer-health.py"]), patch("subprocess.run", side_effect=FileNotFoundError()):
+            with self.assertRaises(SystemExit):
+                runpy.run_path(SCRIPT, run_name="__main__")
+
+    def test_malformed_record(self):
+        with self.assertRaises(SystemExit):
+            self.audit("INVALID_RECORD\n")
+
     def test_empty(self):
         self.assertIn("Total peers: 0", self.audit(""))
 

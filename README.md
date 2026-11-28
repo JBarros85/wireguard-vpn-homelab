@@ -56,3 +56,7 @@ GitHub Actions runs synthetic peer-monitor tests on every push and pull request.
 ## Optional Health Check
 
 Use `--recent-seconds 300` to configure the handshake age window. Add `--require-recent` to return exit code 2 when no peer has a handshake within that period. Without this option, inactive peers do not trigger failures. Use this check only when active peers are expected; a recent handshake does not prove complete VPN connectivity. No production configuration changes are required.
+
+## Monitor Reliability
+
+The monitor applies a five-second timeout to WireGuard inspection and reports missing commands, failed execution or malformed output as errors. It never prints peer keys or endpoints. Synthetic regression tests cover these failure scenarios without accessing the production VPN.

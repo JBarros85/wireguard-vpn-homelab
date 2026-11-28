@@ -13,7 +13,10 @@ args = parser.parse_args()
 if not 1 <= args.recent_seconds <= 86400:
     parser.error("--recent-seconds must be between 1 and 86400")
 interface = args.interface
-result = subprocess.run(["wg", "show", interface, "latest-handshakes"], capture_output=True, text=True)
+try:
+    result = subprocess.run(["wg", "show", interface, "latest-handshakes"], capture_output=True, text=True, timeout=5)
+except (subprocess.TimeoutExpired, OSError):
+    sys.exit("ERROR: WireGuard check unavailable or timed out")
 if result.returncode:
     sys.exit("ERROR: unable to read WireGuard handshake state")
 now = int(time.time())
@@ -22,7 +25,7 @@ recent = 0
 for line in result.stdout.splitlines():
     fields = line.split()
     if len(fields) != 2:
-        continue
+        sys.exit("ERROR: malformed WireGuard handshake output")
     peers += 1
     try:
         timestamp = int(fields[1])
